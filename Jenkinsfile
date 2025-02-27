@@ -1,9 +1,5 @@
 pipeline {
-    agent {
-        docker {
-            image 'node:18'  // Utilisation d'une image Node.js officielle
-        }
-    }
+    agent any
 
     environment {
         NODE_ENV = 'development'
@@ -34,6 +30,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo 'Deploying application...'
+                // Ajoutez ici votre script de déploiement
             }
         }
     }
