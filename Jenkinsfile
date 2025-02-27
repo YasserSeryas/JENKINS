@@ -6,6 +6,24 @@ pipeline {
     }
 
     stages {
+        stage('Setup Node.js') {
+            steps {
+                script {
+                    def nodeInstalled = sh(script: "command -v node >/dev/null 2>&1 && echo 'yes' || echo 'no'", returnStdout: true).trim()
+                    if (nodeInstalled == 'no') {
+                        echo 'Node.js is not installed. Installing...'
+                        sh '''
+                        curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
+                        apt-get install -y nodejs
+                        '''
+                    } else {
+                        echo 'Node.js is already installed.'
+                    }
+                }
+                sh 'node -v' // Vérification de la version installée
+            }
+        }
+
         stage('Install Dependencies') {
             steps {
                 echo 'Installing Node.js dependencies...'
